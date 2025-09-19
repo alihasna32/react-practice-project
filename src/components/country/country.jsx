@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Country({ country }) {
+export default function Country({country, visitedCounts, handleVisitedFlag}) {
   const [visited, setVisited] = useState(false);
   const [nonVisited, setNonVisited] = useState(false);
 
@@ -14,7 +14,12 @@ export default function Country({ country }) {
     setVisited(false);
   };
   return (
-    <div className="p-2.5 rounded-xl shadow-xl border border-gray-200">
+    <div
+  className={`p-2.5 rounded-xl shadow-xl border border-gray-200 ${
+    visited ? "bg-green-100" : nonVisited ? "bg-white" : "bg-white"
+  }`}
+>
+
       <img
         className="mb-4 w-full rounded-2xl"
         src={country.flags.flags.png}
@@ -28,18 +33,27 @@ export default function Country({ country }) {
       </p>
       <div className="flex gap-4 mt-5">
         <button
-          className="p-3 rounded-xl border border-gray-300"
-          onClick={handleVisited}
+          className="cursor-pointer p-3 rounded-xl border border-gray-300"
+          onClick={() => {
+            if (!visited) {      
+              handleVisited();
+              visitedCounts();
+            }
+          }}
         >
           {visited ? "Visited🟢" : "Visited"}
         </button>
 
         <button
-          className="p-3 rounded-xl border border-gray-300"
-          onClick={handleNonVisited}
+          className="cursor-pointer p-3 rounded-xl border border-gray-300"
+          onClick={     
+              handleNonVisited
+            } 
         >
-          {nonVisited ? "Non Visited🟢" : "Non-Visited"}
+          {nonVisited ? "Non Visited🛑" : "Non-Visited"}
         </button>
+
+        <button className="cursor-pointer p-3 rounded-xl border border-gray-300" onClick={() => {handleVisitedFlag(country.flags.flags.png)}}>Add Visited Flag</button>
       </div>
     </div>
   );
